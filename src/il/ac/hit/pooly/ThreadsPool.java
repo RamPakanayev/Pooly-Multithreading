@@ -4,18 +4,31 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The ThreadsPool class for managing a pool of threads.
+ */
 public class ThreadsPool {
     private final ThreadPoolExecutor executor;
 
+    /**
+     * Create a new ThreadsPool.
+     * @param numberOfThreads the number of threads in the pool
+     */
     public ThreadsPool(int numberOfThreads) {
         executor = new ThreadPoolExecutor(numberOfThreads, numberOfThreads, 0L, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
     }
 
+    /**
+     * Submit a task to be executed by the thread pool.
+     * @param task the task to execute
+     */
     public void submit(Task task) {
         executor.execute(task);
     }
 
-    // Add shutdown method to properly close the executor
+    /**
+     * Shutdown the thread pool.
+     */
     public void shutdown() {
         executor.shutdown();
     }

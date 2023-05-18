@@ -2,40 +2,31 @@ package il.ac.hit.pooly;
 
 public class Main {
     public static void main(String[] args) {
-        ThreadsPool pool = new ThreadsPool(2);
+        ThreadsPool pool = new ThreadsPool(10);
 
-        Task task1 = new Task() {
-            @Override
-            public void perform() {
-                System.out.println("Task 1 performed");
-            }
+        for (int i = 0; i < 100; i++) {
+            Task task = new Task() {
+                private int myPriority;
 
-            @Override
-            public void setPriority(int level) {}
+                @Override
+                public void perform() throws InterruptedException {
+                    System.out.println("Performing task with priority " + myPriority);
+                    Thread.sleep(100);
+                }
 
-            @Override
-            public int getPriority() {
-                return 1;
-            }
-        };
+                @Override
+                public void setPriority(int level) {
+                    myPriority = level;
+                }
 
-        Task task2 = new Task() {
-            @Override
-            public void perform() {
-                System.out.println("Task 2 performed");
-            }
-
-            @Override
-            public void setPriority(int level) {}
-
-            @Override
-            public int getPriority() {
-                return 2;
-            }
-        };
-
-        pool.submit(task1);
-        pool.submit(task2);
+                @Override
+                public int getPriority() {
+                    return myPriority;
+                }
+            };
+            task.setPriority(i);
+            pool.submit(task);
+        }
 
         pool.shutdown();
     }
