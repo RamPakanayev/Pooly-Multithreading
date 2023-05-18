@@ -1,18 +1,28 @@
 package il.ac.hit.pooly;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
 
-class ThreadsPoolTest {
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.*;
+
+public class ThreadsPoolTest {
+    private ThreadsPool pool;
+
+    @Before
+    public void setUp() {
+        pool = new ThreadsPool(2);
+    }
+
     @Test
-    void submit() {
-        ThreadsPool pool = new ThreadsPool(2);
-        Task task1 = new Task() {
-            private int myPriority = 1;
+    public void testSubmit() throws InterruptedException {
+        Task task = new Task() {
+            private int myPriority;
 
             @Override
             public void perform() {
-                System.out.println("Task 1 performed");
+                System.out.println("Performing task with priority " + myPriority);
             }
 
             @Override
@@ -25,12 +35,25 @@ class ThreadsPoolTest {
                 return myPriority;
             }
         };
-        Task task2 = new Task() {
-            private int myPriority = 2;
+
+        task.setPriority(5);
+        pool.submit(task);
+
+        // Allow time for the task to be executed
+        TimeUnit.SECONDS.sleep(1);
+
+        // The pool should have executed the task
+        assertTrue(pool.getCompletedTaskCount() > 0);
+    }
+
+    @Test
+    public void testShutdown() throws InterruptedException {
+        Task task = new Task() {
+            private int myPriority;
 
             @Override
             public void perform() {
-                System.out.println("Task 2 performed");
+                System.out.println("Performing task with priority " + myPriority);
             }
 
             @Override
@@ -43,17 +66,16 @@ class ThreadsPoolTest {
                 return myPriority;
             }
         };
-        pool.submit(task1);
-        pool.submit(task2);
-        // AddApologies for the abrupt cut-off in the previous message. Here's the continuation of the unit test:
 
-```java
-        // Add a delay to allow tasks to finish
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        task.setPriority(5);
+        pool.submit(task);
+
+        // Allow time for the task to be executed
+        TimeUnit.SECONDS.sleep(1);
+
         pool.shutdown();
+
+        // The pool should be shut down
+        assertTrue(pool.isShutdown());
     }
 }

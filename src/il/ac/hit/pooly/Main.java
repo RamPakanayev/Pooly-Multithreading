@@ -11,7 +11,7 @@ public class Main {
                 @Override
                 public void perform() throws InterruptedException {
                     System.out.println("Performing task with priority " + myPriority);
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 }
 
                 @Override

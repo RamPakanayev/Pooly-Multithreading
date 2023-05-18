@@ -1,25 +1,73 @@
 package il.ac.hit.pooly;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
 
-class TaskTest {
-    @Test
-    void perform() {
-        Task task = new Task() {
+import static org.junit.Assert.*;
+
+public class TaskTest {
+    private Task task;
+
+    @Before
+    public void setUp() {
+        task = new Task() {
+            private int myPriority;
+
             @Override
             public void perform() {
-                System.out.println("Task performed");
+                System.out.println("Performing task with priority " + myPriority);
             }
 
             @Override
-            public void setPriority(int level) {}
+            public void setPriority(int level) {
+                myPriority = level;
+            }
 
             @Override
             public int getPriority() {
-                return 0;
+                return myPriority;
             }
         };
-        task.perform();
+    }
+
+    @Test
+    public void testSetAndGetPriority() {
+        int priority = 5;
+        task.setPriority(priority);
+        assertEquals(priority, task.getPriority());
+    }
+
+    @Test
+    public void testCompareTo() {
+        Task otherTask = new Task() {
+            private int myPriority;
+
+            @Override
+            public void perform() {
+                System.out.println("Performing task with priority " + myPriority);
+            }
+
+            @Override
+            public void setPriority(int level) {
+                myPriority = level;
+            }
+
+            @Override
+            public int getPriority() {
+                return myPriority;
+            }
+        };
+
+        otherTask.setPriority(3);
+        task.setPriority(5);
+        assertTrue(task.compareTo(otherTask) < 0);
+
+        otherTask.setPriority(5);
+        task.setPriority(5);
+        assertEquals(0, task.compareTo(otherTask));
+
+        otherTask.setPriority(7);
+        task.setPriority(5);
+        assertTrue(task.compareTo(otherTask) > 0);
     }
 }

@@ -32,4 +32,20 @@ public class ThreadsPool {
     public void shutdown() {
         executor.shutdown();
     }
+
+    /**
+     * Get the number of completed tasks.
+     * @return the number of completed tasks
+     */
+    public long getCompletedTaskCount() {
+        return executor.getCompletedTaskCount();
+    }
+
+    /**
+     * Check if the thread pool is shut down.
+     * @return true if the thread pool is shut down, false otherwise
+     */
+    public boolean isShutdown() {
+        return executor.isShutdown();
+    }
 }
