@@ -34,6 +34,9 @@ public interface Task extends Runnable, Comparable<Task> {
 
     @Override
     default int compareTo(Task other) {
+        if(other == null) {
+            throw new IllegalArgumentException("Other task cannot be null");
+        }
         return Integer.compare(other.getPriority(), this.getPriority());
     }
 }

@@ -26,6 +26,12 @@ public class ThreadsPool {
      * @param task the task to execute
      */
     public void submit(Task task) {
+        if (executor.isShutdown()) {
+            throw new IllegalStateException("Cannot submit task after shutdown");
+        }
+        if (task == null) {
+            throw new IllegalArgumentException("Task cannot be null");
+        }
         executor.execute(task);
     }
 
