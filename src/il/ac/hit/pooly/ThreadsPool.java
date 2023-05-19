@@ -15,6 +15,9 @@ public class ThreadsPool {
      * @param numberOfThreads the number of threads in the pool
      */
     public ThreadsPool(int numberOfThreads) {
+        if (numberOfThreads <= 0) {
+            throw new IllegalArgumentException("Number of threads must be greater than 0");
+        }
         executor = new ThreadPoolExecutor(numberOfThreads, numberOfThreads, 0L, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
     }
 
