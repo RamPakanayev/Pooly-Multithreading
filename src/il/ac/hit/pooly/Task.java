@@ -1,3 +1,4 @@
+
 package il.ac.hit.pooly;
 
 /**
@@ -6,9 +7,8 @@ package il.ac.hit.pooly;
 public interface Task extends Runnable, Comparable<Task> {
     /**
      * Perform the task.
-     * @throws Exception if an error occurs while performing the task
      */
-    void perform() throws Exception;
+    void perform();
 
     /**
      * Set the priority of the task.
@@ -24,19 +24,11 @@ public interface Task extends Runnable, Comparable<Task> {
 
     @Override
     default void run() {
-        try {
-            perform();
-        } catch (Exception e) {
-            // Handle exception or rethrow as appropriate
-            e.printStackTrace();
-        }
+        perform();
     }
 
     @Override
     default int compareTo(Task other) {
-        if(other == null) {
-            throw new IllegalArgumentException("Other task cannot be null");
-        }
         return Integer.compare(other.getPriority(), this.getPriority());
     }
 }

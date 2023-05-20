@@ -1,61 +1,44 @@
 package il.ac.hit.pooly;
 
+/**
+ * The Main class for running the application.
+ */
 public class Main {
+    /**
+     * The main method for running the application.
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        // Create a new thread pool with 2 threads
-        ThreadsPool pool = new ThreadsPool(2);
+        ThreadsPool pool = new ThreadsPool(10);
 
-        // Create a few tasks
-        Task task1 = new Task() {
-            private int myPriority = 1;
+        for (int i = 0; i < 100; i++) {
+            Task task = new Task() {
+                private int myPriority;
 
-            @Override
-            public void perform() throws Exception {
-                System.out.println("Performing task 1 with priority " + myPriority);
-            }
+                @Override
+                public void perform() {
+                    try {
+                        System.out.println("Performing task with priority " + myPriority);
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
-            @Override
-            public void setPriority(int level) {
-                myPriority = level;
-            }
+                @Override
+                public void setPriority(int level) {
+                    myPriority = level;
+                }
 
-            @Override
-            public int getPriority() {
-                return myPriority;
-            }
-        };
-
-        Task task2 = new Task() {
-            private int myPriority = 2;
-
-            @Override
-            public void perform() throws Exception {
-                System.out.println("Performing task 2 with priority " + myPriority);
-            }
-
-            @Override
-            public void setPriority(int level) {
-                myPriority = level;
-            }
-
-            @Override
-            public int getPriority() {
-                return myPriority;
-            }
-        };
-
-        // Submit the tasks to the thread pool
-        pool.submit(task1);
-        pool.submit(task2);
-
-        // Wait for a bit to allow the tasks to be executed
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                @Override
+                public int getPriority() {
+                    return myPriority;
+                }
+            };
+            task.setPriority(i);
+            pool.submit(task);
         }
 
-        // Shut down the thread pool
         pool.shutdown();
     }
 }

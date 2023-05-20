@@ -14,7 +14,7 @@ public class TaskTest {
             private int myPriority;
 
             @Override
-            public void perform() throws Exception {
+            public void perform() {
                 System.out.println("Performing task with priority " + myPriority);
             }
 
@@ -30,7 +30,6 @@ public class TaskTest {
         };
     }
 
-    // Test to check if the setPriority and getPriority methods are working correctly
     @Test
     public void testSetAndGetPriority() {
         int priority = 5;
@@ -38,14 +37,13 @@ public class TaskTest {
         assertEquals(priority, task.getPriority());
     }
 
-    // Test to check if the compareTo method is working correctly
     @Test
     public void testCompareTo() {
         Task otherTask = new Task() {
             private int myPriority;
 
             @Override
-            public void perform() throws Exception {
+            public void perform() {
                 System.out.println("Performing task with priority " + myPriority);
             }
 

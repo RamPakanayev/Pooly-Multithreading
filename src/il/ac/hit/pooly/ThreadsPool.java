@@ -15,9 +15,6 @@ public class ThreadsPool {
      * @param numberOfThreads the number of threads in the pool
      */
     public ThreadsPool(int numberOfThreads) {
-        if (numberOfThreads <= 0) {
-            throw new IllegalArgumentException("Number of threads must be greater than 0");
-        }
         executor = new ThreadPoolExecutor(numberOfThreads, numberOfThreads, 0L, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
     }
 
@@ -26,12 +23,6 @@ public class ThreadsPool {
      * @param task the task to execute
      */
     public void submit(Task task) {
-        if (executor.isShutdown()) {
-            throw new IllegalStateException("Cannot submit task after shutdown");
-        }
-        if (task == null) {
-            throw new IllegalArgumentException("Task cannot be null");
-        }
         executor.execute(task);
     }
 
