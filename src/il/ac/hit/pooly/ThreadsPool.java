@@ -6,8 +6,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * The ThreadsPool class for managing a pool of threads.
+ * This class uses a ThreadPoolExecutor from Java's concurrent library.
  */
 public class ThreadsPool {
+    /**
+     * The executor service that actually manages the execution of the tasks in the thread pool.
+     * It uses a PriorityBlockingQueue to hold the tasks, allowing tasks with higher priority
+     * to be served before tasks with lower priority.
+     */
     private final ThreadPoolExecutor executor;
 
     /**
@@ -23,9 +29,11 @@ public class ThreadsPool {
      * @param task the task to execute
      */
     public void submit(Task task) {
+        if (task == null) {
+            throw new IllegalArgumentException("Task cannot be null.");
+        }
         executor.execute(task);
     }
-
     /**
      * Shutdown the thread pool.
      */
