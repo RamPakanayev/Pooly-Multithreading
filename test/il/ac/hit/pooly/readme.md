@@ -1,4 +1,4 @@
-In your code, you have two test files: TaskTest.java and ThreadsPoolTest.java.
+two test files: TaskTest.java and ThreadsPoolTest.java.
 
 TaskTest.java is designed to test the Task interface and its implementations. The specific tests in this file are:
 
